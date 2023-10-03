@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <Button
+        android:id="@+id/user_info_shared_insert_int_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="往UserInfo SharedPref插入Int值，String 值"  />
+
+
+    <Button
+        android:id="@+id/car_info_shared_insert_int_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="往CarInfo SharedPref插入String 值"  />
+
+
+    <Button
+        android:id="@+id/user_sharefr_migrate_data_store"
+        android:text="UserInfo 的SharedPref 迁移到datastore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/user_sharefr_migrate_data_store_insert_int"
+        android:text="往dataStore插入1条迁移完成后的数据，插入int类型的值"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/user_sharefr_migrate_data_store_insert_string"
+        android:text="往dataStore插入1条迁移完成后的数据，插入string类型的值"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/user_read_data_store_value"
+        android:text="读取存储在 share_user_info dataStore里面的值"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/user_insert_user_info_obj"
+        android:text="往dataStore里面的 share_user_info 插入对象，然后读取"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
