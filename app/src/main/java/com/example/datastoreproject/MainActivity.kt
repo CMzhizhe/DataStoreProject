@@ -86,7 +86,9 @@ class MainActivity : AppCompatActivity() {
         //读取参数
         this.findViewById<Button>(R.id.user_read_data_store_value).setOnClickListener {
             val result = DataStoreUtil.getInstance().getString(SHARE_KEY_USER, KEY_SHARE_NAME, "")
+            val age = DataStoreUtil.getInstance().getInt(SHARE_KEY_USER,KEY_SHARE_AGE,-1)
             Log.d(TAG, "result=${result}")
+            Log.d(TAG, "age=${age}")
         }
 
         //往dataStore里面的 share_user_info 插入对象，然后读取
@@ -106,10 +108,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 Log.d(TAG, "完成")
-
-
             }
-
         }
     }
 
