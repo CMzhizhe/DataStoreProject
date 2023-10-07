@@ -104,39 +104,41 @@ class DataStoreUtil : OnDataStoreSaveListener {
      * @param value 存储参数值
      * 同步方式插入
      */
-    override fun <T> put(dataStoreName: String, key: String, value: T) {
+    override suspend fun <T> put(dataStoreName: String, key: String, value: T) {
         val map = mutableMapOf<String, T>()
         map[key] = value
         mPutParams.putAny(createDataStore(dataStoreName), map)
     }
 
-    override fun putInt(dataStoreName: String, key: String, value: String) {
+    override suspend fun putInt(dataStoreName: String, key: String, value: String) {
         this.put(dataStoreName, key, value)
     }
 
-    override fun putString(dataStoreName: String, key: String, value: String) {
+    override suspend fun putString(dataStoreName: String, key: String, value: String) {
         this.put(dataStoreName, key, value)
     }
 
-    override fun putDouble(dataStoreName: String, key: String, value: String) {
+    override suspend fun putDouble(dataStoreName: String, key: String, value: String) {
         this.put(dataStoreName, key, value)
     }
 
-    override fun putBoolean(dataStoreName: String, key: String, value: String) {
+    override suspend fun putBoolean(dataStoreName: String, key: String, value: String) {
         this.put(dataStoreName, key, value)
     }
 
-    override fun putFloat(dataStoreName: String, key: String, value: String) {
+    override suspend fun putFloat(dataStoreName: String, key: String, value: String) {
         this.put(dataStoreName, key, value)
     }
 
-    override fun putLong(dataStoreName: String, key: String, value: String) {
+    override suspend fun putLong(dataStoreName: String, key: String, value: String) {
         this.put(dataStoreName, key, value)
     }
 
-    override fun <T> putAny(dataStoreName: String, map: MutableMap<String, T>) {
+    override suspend fun <T> putAny(dataStoreName: String, map: MutableMap<String, T>) {
         mPutParams.putAny(createDataStore(dataStoreName), map)
     }
+
+
 
     /**
      * @author gaoxiaoxiong
@@ -146,10 +148,9 @@ class DataStoreUtil : OnDataStoreSaveListener {
      * 异步方式插入
      */
     override  fun <T> applyPut(dataStoreName: String, key: String, value: T) {
-        val dataStore = createDataStore(dataStoreName)
         val map = mutableMapOf<String, T>()
         map[key] = value
-        mPutParams.applyPutAny(dataStore,map)
+        mPutParams.applyPutAny(createDataStore(dataStoreName),map)
     }
 
     override  fun applyPutInt(dataStoreName: String, key: String, value: String) {

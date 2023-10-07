@@ -24,21 +24,21 @@ interface OnDataStoreSaveListener {
      * @author gaoxiaoxiong
      * 同步
      */
-    fun <T> put(dataStoreName: String, key: String, value: T)
+    suspend fun <T> put(dataStoreName: String, key: String, value: T)
 
-    fun putInt(dataStoreName: String, key: String, value: String)
+    suspend  fun putInt(dataStoreName: String, key: String, value: String)
 
-    fun putString(dataStoreName: String, key: String, value: String)
+    suspend fun putString(dataStoreName: String, key: String, value: String)
 
-    fun putDouble(dataStoreName: String, key: String, value: String)
+    suspend fun putDouble(dataStoreName: String, key: String, value: String)
 
-    fun putBoolean(dataStoreName: String, key: String, value: String)
+    suspend fun putBoolean(dataStoreName: String, key: String, value: String)
 
-    fun putFloat(dataStoreName: String, key: String, value: String)
+    suspend fun putFloat(dataStoreName: String, key: String, value: String)
 
-    fun putLong(dataStoreName: String, key: String, value: String)
+    suspend fun putLong(dataStoreName: String, key: String, value: String)
 
-    fun <T> putAny(dataStoreName: String, map: MutableMap<String, T>)
+    suspend fun <T> putAny(dataStoreName: String, map: MutableMap<String, T>)
 
 
     /**

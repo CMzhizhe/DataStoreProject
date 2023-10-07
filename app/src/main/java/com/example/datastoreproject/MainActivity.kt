@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.gxx.datalibrary.DataStoreUtil
@@ -73,14 +74,18 @@ class MainActivity : AppCompatActivity() {
         //迁移完userInfo，往里面插入一条int类型的值
         this.findViewById<Button>(R.id.user_sharefr_migrate_data_store_insert_int)
             .setOnClickListener {
-                DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_AGE, Random().nextInt())
+                lifecycleScope.launch {
+                    DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_AGE, Random().nextInt())
+                }
             }
 
         //迁移完userInfo，往里面插入一条String类型的值
         this.findViewById<Button>(R.id.user_sharefr_migrate_data_store_insert_string)
             .setOnClickListener {
-                DataStoreUtil.getInstance()
-                    .put(SHARE_KEY_USER, KEY_SHARE_NAME, "新插入的用户名字-${Random().nextInt()}")
+                lifecycleScope.launch {
+                    DataStoreUtil.getInstance()
+                        .put(SHARE_KEY_USER, KEY_SHARE_NAME, "新插入的用户名字-${Random().nextInt()}")
+                }
             }
 
         //读取参数
@@ -91,21 +96,28 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "age=${age}")
         }
 
+        val textView = this.findViewById<TextView>(R.id.show_tv)
+        var count = 0
+        Thread{
+            while (true){
+                Thread.sleep(1 * 1000)
+                count = count + 1
+                runOnUiThread{
+                    textView.setText("count="+count)
+                }
+            }
+        }.start()
         //往dataStore里面的 share_user_info 插入对象，然后读取
         this.findViewById<Button>(R.id.user_insert_user_info_obj).setOnClickListener {
             lifecycleScope.launch {
                 val testModel = TestModel(1, "王五-${Random().nextInt()}")
                 //插入
-                withContext(Dispatchers.IO) {
-                    DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
-                }
+                DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
+                //DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
                 //再次读取处理
-                withContext(Dispatchers.IO) {
-                    val saveModel = DataStoreUtil.getInstance()
-                        .getAny<TestModel>(SHARE_KEY_USER, KEY_SHARE_OBJ, TestModel::class.java)
-                    Log.d(TAG, "name=${saveModel?.name}")
-                    Log.d(TAG, "sex=${saveModel?.sex}")
-                }
+                val saveModel = DataStoreUtil.getInstance().getAny<TestModel>(SHARE_KEY_USER, KEY_SHARE_OBJ, TestModel::class.java)
+                Log.d(TAG, "name=${saveModel?.name}")
+                Log.d(TAG, "sex=${saveModel?.sex}")
 
                 Log.d(TAG, "完成")
             }
