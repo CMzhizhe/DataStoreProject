@@ -47,11 +47,9 @@ class MyApplication : Application() {
  //第一个参数为 你的dataStore名称，第二参数为你存储的key，第三个参数为需要存储的值
 DataStoreUtil.getInstance().applyPutString(SHARE_KEY_USER,KEY_SHARE_NAME,"23")
 
-2、同步提交，但是需要使用withContext(Dispatchers.IO)
- withContext(Dispatchers.IO) {
-   val testModel = TestModel(1, "王五-${Random().nextInt()}")
-   DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
- }
+2、对象提交
+  val testModel = TestModel(1, "王五-${Random().nextInt()}")
+  DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
 
 读取数据
 //第一个参数为 你的dataStore名称，第二参数为你存储的key，第三个参数为默认值
