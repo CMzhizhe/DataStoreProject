@@ -1,7 +1,7 @@
 #### 完成功能
 1、将sharedpreferences迁移到dataStore
 <br/>
-2、含有同步提交，异步提交
+2、含有提交，异步提交
 <br/>
 3、支持动态创建dataStore
 <br/>
