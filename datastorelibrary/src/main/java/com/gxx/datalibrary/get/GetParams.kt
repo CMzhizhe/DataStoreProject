@@ -19,13 +19,17 @@ class GetParams : OnGetParamsListener {
         key: String,
         resultClass: Class<*>
     ): T? = runBlocking {
-        val tResult:T? = withContext(coroutineContext){
-             val storeValue = dataStore.data.map {
-                 it[stringPreferencesKey(key)]
-            }.first()
-            mGson.fromJson<T?>(storeValue,resultClass)
-        }
-         tResult
+        kotlin.runCatching {
+            val tResult:T? = withContext(coroutineContext){
+                val storeValue = dataStore.data.map {
+                    it[stringPreferencesKey(key)]
+                }.first()
+                mGson.fromJson<T?>(storeValue,resultClass)
+            }
+            tResult
+        }.onFailure {
+            it.printStackTrace()
+        }.getOrNull()
     }
 
 

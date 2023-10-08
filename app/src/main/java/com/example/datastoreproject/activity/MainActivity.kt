@@ -1,6 +1,7 @@
 package com.example.datastoreproject.activity
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -19,14 +20,16 @@ class MainActivity : AppCompatActivity() {
 
     val KEY_SHARE_AGE = "age"
     val KEY_SHARE_NAME = "name"
-    val KEY_SHARE_OBJ = "obj"
+
 
     val KEY_SHARE_BRAND = "brand"
     val KEY_SHARE_NUMBERPLATE = "numberplate"
 
-    companion object{
-        val SHARE_KEY_USER = "share_user_info"
-        val SHARE_KEY_CAR = "share_car_info"
+    companion object {
+        const val SHARE_KEY_USER = "share_user_info"
+        const val SHARE_KEY_CAR = "share_car_info"
+
+        const val KEY_SHARE_OBJ = "obj"
     }
 
 
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     val userInfoSharePre: SharedPreferences by lazy {
         this.getSharedPreferences(SHARE_KEY_USER, Context.MODE_PRIVATE)
     }
+
     //汽车share
     val carInfoSharePre: SharedPreferences by lazy {
         this.getSharedPreferences(SHARE_KEY_CAR, Context.MODE_PRIVATE)
@@ -75,7 +79,8 @@ class MainActivity : AppCompatActivity() {
         this.findViewById<Button>(R.id.user_sharefr_migrate_data_store_insert_int)
             .setOnClickListener {
                 lifecycleScope.launch {
-                    DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_AGE, Random().nextInt())
+                    DataStoreUtil.getInstance()
+                        .put(SHARE_KEY_USER, KEY_SHARE_AGE, Random().nextInt())
                 }
             }
 
@@ -84,26 +89,30 @@ class MainActivity : AppCompatActivity() {
             .setOnClickListener {
                 lifecycleScope.launch {
                     DataStoreUtil.getInstance()
-                        .put(SHARE_KEY_USER, KEY_SHARE_NAME, "新插入的用户名字-${Random().nextInt()}")
+                        .put(
+                            SHARE_KEY_USER,
+                            KEY_SHARE_NAME,
+                            "新插入的用户名字-${Random().nextInt()}"
+                        )
                 }
             }
 
         //读取参数
         this.findViewById<Button>(R.id.user_read_data_store_value).setOnClickListener {
             val result = DataStoreUtil.getInstance().getString(SHARE_KEY_USER, KEY_SHARE_NAME, "")
-            val age = DataStoreUtil.getInstance().getInt(SHARE_KEY_USER,KEY_SHARE_AGE,-1)
+            val age = DataStoreUtil.getInstance().getInt(SHARE_KEY_USER, KEY_SHARE_AGE, -1)
             Log.d(TAG, "result=${result}")
             Log.d(TAG, "age=${age}")
         }
 
         val textView = this.findViewById<TextView>(R.id.show_tv)
         var count = 0
-        Thread{
-            while (true){
+        Thread {
+            while (true) {
                 Thread.sleep(1 * 1000)
-                count = count + 1
-                runOnUiThread{
-                    textView.setText("count="+count)
+                count += 1
+                runOnUiThread {
+                    textView.text = "count=$count"
                 }
             }
         }.start()
@@ -115,12 +124,17 @@ class MainActivity : AppCompatActivity() {
                 DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
                 //DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
                 //再次读取处理
-                val saveModel = DataStoreUtil.getInstance().getAny<TestModel>(SHARE_KEY_USER, KEY_SHARE_OBJ, TestModel::class.java)
+                val saveModel = DataStoreUtil.getInstance()
+                    .getAny<TestModel>(SHARE_KEY_USER, KEY_SHARE_OBJ, TestModel::class.java)
                 Log.d(TAG, "name=${saveModel?.name}")
                 Log.d(TAG, "sex=${saveModel?.sex}")
 
                 Log.d(TAG, "完成")
             }
+        }
+
+        this.findViewById<Button>(R.id.start_java_activity).setOnClickListener {
+            startActivity(Intent(this, JavaActivity::class.java))
         }
     }
 
