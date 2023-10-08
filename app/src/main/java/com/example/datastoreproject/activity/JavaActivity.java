@@ -65,9 +65,9 @@ public class JavaActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 TestModel testModel = new TestModel(new Random().nextInt(),"张三--"+new Random().nextInt());
-                DataStoreUtil.Companion.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel, new JavaContinuation<Unit>() {
+                DataStoreUtil.Companion.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel, new JavaContinuation<Object>() {
                     @Override
-                    public void resume(Unit value) {
+                    public void resume(Object value) {
                        Log.d(TAG,"resume回调");
                     }
 

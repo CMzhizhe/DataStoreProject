@@ -183,7 +183,7 @@ class DataStoreUtil : OnDataStoreSaveListener {
         mPutParams.applyPutAny(createDataStore(dataStoreName),map)
     }
 
-    override fun getString(dataStoreName: String, key: String, defaultValue: String):String {
+    override fun getString(dataStoreName: String, key: String, defaultValue: String?):String? {
         return this.getAny<String>(dataStoreName, key,String::class.java)?:defaultValue
     }
 

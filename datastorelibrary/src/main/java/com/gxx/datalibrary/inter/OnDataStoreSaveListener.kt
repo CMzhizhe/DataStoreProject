@@ -63,7 +63,7 @@ interface OnDataStoreSaveListener {
 
 
 
-    fun getString(dataStoreName: String, key: String, defaultValue: String):String
+    fun getString(dataStoreName: String, key: String, defaultValue: String?):String?
 
     fun getInt(dataStoreName: String, key: String, defaultValue: Int):Int
 
