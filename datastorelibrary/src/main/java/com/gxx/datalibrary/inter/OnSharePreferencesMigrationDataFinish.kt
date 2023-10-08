@@ -1,5 +1,8 @@
 package com.gxx.datalibrary.inter
 
 interface OnSharePreferencesMigrationDataFinish {
-    fun onFinish()
+
+    fun onSuccess()
+
+    fun onFail(e:Throwable)
 }

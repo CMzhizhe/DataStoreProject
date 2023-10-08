@@ -13,7 +13,6 @@ class PutParams: OnPutParamsListener {
         dataStore: DataStore<Preferences>,
         map: MutableMap<String, T>
     ) {
-        delay(5000)
         dataStore.edit{
             for (mutableEntry in map.iterator()) {
                 val key = mutableEntry.key

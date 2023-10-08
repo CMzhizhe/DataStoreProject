@@ -48,45 +48,47 @@ class DataStoreUtil : OnDataStoreSaveListener {
      */
    suspend fun preloadDataStore(dataStoreNames: MutableList<String>){
         for (dataStoreName in dataStoreNames) {
-             val dataStore = createDataStore(dataStoreName)
+            if (mDataStoreMap[dataStoreName] !=null){
+                continue
+            }
+            val dataStore = createDataStore(dataStoreName)
             dataStore.data.first()
         }
-
     }
 
     /**
      * @author gaoxiaoxiong
      * SharedPreferences 数据迁移
      * @param sharedPreferName SharedPreferences名称，不需要带 .xml后缀
+     * 不要去执行多次执行这个方法，如果你已经迁移过一次了，就不要走第二次迁移的逻辑，会报错
      */
     override fun preferencesMigrationDataStore(
         sharedPreferName: String,
         listener: OnSharePreferencesMigrationDataFinish?
     ) {
-        synchronized(DataStoreUtil::class.java) {
-            if (mDataStoreMap[sharedPreferName] != null) {
-                return
+        kotlin.runCatching {
+            val dataStore = PreferenceDataStoreFactory.create(
+                corruptionHandler = ReplaceFileCorruptionHandler<Preferences>(
+                    produceNewData = { emptyPreferences() }
+                ),
+                migrations = listOf(SharedPreferencesMigration(mContext, sharedPreferName)),
+                scope = mIoScope) {
+                mContext.preferencesDataStoreFile(sharedPreferName)
             }
-        }
 
-        val dataStore = PreferenceDataStoreFactory.create(
-            corruptionHandler = ReplaceFileCorruptionHandler<Preferences>(
-                produceNewData = { emptyPreferences() }
-            ),
-            migrations = listOf(SharedPreferencesMigration(mContext, sharedPreferName)),
-            scope = mIoScope) {
-            mContext.preferencesDataStoreFile(sharedPreferName)
-        }
-
-        runBlocking {
-            dataStore.updateData {
-                it.toPreferences()
+            runBlocking {
+                dataStore.updateData {
+                    it.toPreferences()
+                }
             }
+
+            mDataStoreMap[sharedPreferName] = dataStore
+            listener?.onSuccess()
+        }.onFailure {
+            it.printStackTrace()
+            listener?.onFail(it)
         }
 
-        mDataStoreMap[sharedPreferName] = dataStore
-
-        listener?.onFinish()
     }
 
     /**
