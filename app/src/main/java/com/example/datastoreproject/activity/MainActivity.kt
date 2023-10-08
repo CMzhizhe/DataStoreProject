@@ -1,4 +1,4 @@
-package com.example.datastoreproject
+package com.example.datastoreproject.activity
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,10 +8,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.datastoreproject.R
+import com.example.datastoreproject.model.TestModel
 import com.gxx.datalibrary.DataStoreUtil
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class MainActivity : AppCompatActivity() {

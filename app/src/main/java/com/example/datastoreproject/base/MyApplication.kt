@@ -1,8 +1,7 @@
-package com.example.datastoreproject
+package com.example.datastoreproject.base
 
 import android.app.Application
-import android.database.DatabaseUtils
-import android.provider.Settings.Global
+import com.example.datastoreproject.activity.MainActivity
 import com.gxx.datalibrary.DataStoreUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
