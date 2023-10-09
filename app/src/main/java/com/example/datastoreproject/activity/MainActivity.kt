@@ -122,15 +122,13 @@ class MainActivity : AppCompatActivity() {
                 val testModel = TestModel(1, "王五-${Random().nextInt()}")
                 //插入
                 DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
-                //DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
                 //再次读取处理
                 val saveModel = DataStoreUtil.getInstance()
                     .getAny<TestModel>(SHARE_KEY_USER, KEY_SHARE_OBJ, TestModel::class.java)
                 Log.d(TAG, "name=${saveModel?.name}")
                 Log.d(TAG, "sex=${saveModel?.sex}")
-
-                Log.d(TAG, "完成")
             }
+            Log.d(TAG, "完成")
         }
 
         this.findViewById<Button>(R.id.start_java_activity).setOnClickListener {

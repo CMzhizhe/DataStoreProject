@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.gxx.datalibrary.util.JavaContinuation;
 import com.example.datastoreproject.R;
 import com.example.datastoreproject.model.TestModel;
 import com.gxx.datalibrary.DataStoreUtil;
@@ -20,6 +19,7 @@ import com.gxx.datalibrary.DataStoreUtil;
 import java.util.Random;
 
 import kotlin.Unit;
+import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.coroutines.EmptyCoroutineContext;
 
@@ -65,21 +65,16 @@ public class JavaActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 TestModel testModel = new TestModel(new Random().nextInt(),"张三--"+new Random().nextInt());
-                DataStoreUtil.Companion.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel, new JavaContinuation<Object>() {
-                    @Override
-                    public void resume(Object value) {
-                       Log.d(TAG,"resume回调");
-                    }
-
-                    @Override
-                    public void resumeWithException(@NonNull Throwable exception) {
-
-                    }
-
+                DataStoreUtil.Companion.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel, new Continuation<Unit>() {
                     @NonNull
                     @Override
                     public CoroutineContext getContext() {
                         return EmptyCoroutineContext.INSTANCE;
+                    }
+
+                    @Override
+                    public void resumeWith(@NonNull Object o) {
+
                     }
                 });
             }
