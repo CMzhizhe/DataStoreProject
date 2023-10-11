@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity() {
         this.findViewById<Button>(R.id.user_insert_user_info_obj).setOnClickListener {
             lifecycleScope.launch {
                 val testModel = TestModel(1, "王五-${Random().nextInt()}")
+                Log.d(TAG, "准备插入的用户信息，name=${testModel.name}");
                 //插入
                 DataStoreUtil.getInstance().put(SHARE_KEY_USER, KEY_SHARE_OBJ, testModel)
                 //再次读取处理

@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import com.gxx.datalibrary.inter.OnGetParamsListener
+import com.gxx.datalibrary.util.MemoryCacheUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -20,13 +21,18 @@ class GetParams : OnGetParamsListener {
         resultClass: Class<*>
     ): T? = runBlocking {
         kotlin.runCatching {
-            val tResult:T? = withContext(coroutineContext){
-                val storeValue = dataStore.data.map {
-                    it[stringPreferencesKey(key)]
-                }.first()
-                mGson.fromJson<T?>(storeValue,resultClass)
+            val cacheValue = MemoryCacheUtil.get(key)
+            if (cacheValue!=null){
+                mGson.fromJson<T?>(cacheValue,resultClass)
+            }else{
+                val tResult:T? = withContext(coroutineContext){
+                    val storeValue = dataStore.data.map {
+                        it[stringPreferencesKey(key)]
+                    }.first()
+                    mGson.fromJson<T?>(storeValue,resultClass)
+                }
+                tResult
             }
-            tResult
         }.onFailure {
             it.printStackTrace()
         }.getOrNull()
