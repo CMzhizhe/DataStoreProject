@@ -21,7 +21,7 @@
   maven { url "https://jitpack.io" }
 ```
 ```
-implementation 'com.github.CMzhizhe:DataStoreProject:1.0.3'
+implementation 'com.github.CMzhizhe:DataStoreProject:1.0.4'
 ```
 
 #### 功能展示
